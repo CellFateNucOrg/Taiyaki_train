@@ -27,6 +27,7 @@ echo $bcMixDir
 echo -e "barcode_no"'\t'"chromosome"'\t'"leftmost_mapping_position"'\t'"readLength_bp"'\t'"MAPQ"'\t'"readID" \
 	> ${bamDir}/readIDs_infoSummary_exp${expName}_allAlignedReads.txt
 
+# continue summary file *
 for i in ${barcodesStrippedAll[@]}
 do
 	samtools view ${bamDir}/${expName}_pass_barcode${i}.sorted.bam \

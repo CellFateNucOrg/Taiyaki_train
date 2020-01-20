@@ -1,13 +1,9 @@
 #! /bin/bash
-## script to arrange all fastq files into batches for analysis. Combined files will be created for
-## each barcode of interest for both passed and failed reads (e.g. pass_barcode01 or fail_barcode01).
-## Samtools is used to quality-check and sort the file for each barcode, output is a sorted .bam-file.
-## Sorted .bam-files are in addition converted to fasta-files. This serves as basis for ground truth-preparation 
-## for each read and its respective base-modification.
+
 
 # Get variables from command line
 expName=$1 	# experiment name (date of exp usually)
-refGenome=$2 	# full path to reference genome - passed from calling script as compund of $genomeFile/$referenceFiles
+refGenome=$2 	# full path to reference genome - passed from calling script as compound of $genomeFile/$referenceFiles
 varSettingsFile=$3	# name of configuration file
 
 # read Settings-file

@@ -7,7 +7,7 @@
 # --dependency=afternotok:Job1	Job2 will run only if Job1 completed with a non-zero exit status
 
 # Example usage: sbatch 00_pipeline_final.sh -v varSettings.sh -e 4 -x 6  to start from step 4 (barcodeMix preparation) to step 6 (ground truth preparation)
-# or sbatch 00_pipeline_final.sh -v varSettings.sh -p -c -e 1 -x 7 for start from basecalling (entryPoint -e 1) and proceed up to merging of ground truth files (exitPoint -x 7), including creation of scaling parameters (-c) and pycoQC quiality check (-p)
+# or sbatch 00_pipeline_final.sh -v varSettings.sh -p -c -e 1 -x 7 for start from basecalling (entryPoint -e 1) and proceed up to merging of ground truth files (exitPoint -x 7), including creation of scaling parameters (-c) and pycoQC quality check (-p)
 
 print_usage() {
   printf "Usage:	-v [path/name of variable settings file]\n"		# name of configuration file from command line
@@ -16,15 +16,15 @@ print_usage() {
   printf "	-e [number from 1 through 8] entry point to pipeline\n"
   printf "	-x [number from 1 through 8] exit point from pipeline\n"
   printf "		steps:	1 basecalling \n"
-  printf "			2 barcode separation \n"
+  printf "			2 barcode separation (demultiplexing) \n"
   printf "			3 alignment \n"
-  printf "			4 barcodemix generation for training \n"
+  printf "			4 barcode mix generation for training \n"
   printf "			5 reference sequence retrieval \n"
   printf "			6 generation of ground truth \n"
   printf "			7 merging ground truth of individual barcodes \n"
-  printf "			8 read mapping \n"
-  printf "	-m flag triggering first model training\n"
-  printf "	-n flag triggering second model training\n"
+  printf "			8 pre-training (read mapping) \n"
+#  printf "	-m flag triggering first model training \n"
+#  printf "	-n flag triggering second model training \n"
 }
 
 if [ $# -eq 0 ]; then
@@ -64,7 +64,7 @@ source ${varSettingsFile}
 ### Ready for pycoQC? (successful basecalling required) ###
 ###########################################################
 
-if [ -f "${workDir}/fastqFiles/sequencing_summary_abc.txt" ];  # checks whether pycoQC can be started right away
+if [ -f "${workDir}/fastqFiles/sequencing_summary.txt" ];  # checks whether pycoQC can be started right away
 then pycoQC_readyToGo="true"; else pycoQC_readyToGo="false";
 fi
 
